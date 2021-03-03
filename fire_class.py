@@ -9,9 +9,9 @@ class fire:
         self.colour = "red"
         self.range = 1
 
-    def cycle(self, environment):
+    def cycle(self, environment, round):
         x = random.rand() * 100
-        if x < 70:
+        if x < 80:
             return self.extinguish()
 
     def extinguish(self):

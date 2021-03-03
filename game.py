@@ -48,11 +48,11 @@ class gameboard():
 
     #Goes through every block on the board in order to determine what said block should do this cycle
     #for every block it gets the view that block can see and calls the block's cycle function which is what decides what action will be taken
-    def next_cycle(self):
+    def next_cycle(self, round):
         for i in range (0, self.rows, 5):
             for j in range (0, self.cols, 5):
                 r = self.map[i][j].range
                 view = self.radius_around_coord(i, j, r)
-                new_tile = self.map[i][j].cycle(view)
+                new_tile = self.map[i][j].cycle(view, round)
                 if new_tile != None:
                     self.map[i][j] = new_tile[2] #we are using the [2] index to get the new object. [0] and [1] contain the x and y coords

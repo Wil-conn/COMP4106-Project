@@ -1,10 +1,11 @@
-from numpy import random
+from numpy import *
 '''
 from tree_class import tree
 from fire_class import fire
 '''
 import tree_class
 import fire_class
+import dirt_class
 
 class grass:
     def __init__(self, x, y):
@@ -14,24 +15,25 @@ class grass:
         self.colour = "green"
         self.range = 1
 
-    def cycle(self, environment):
+    def cycle(self, environment, round):
         x = random.rand() * 100
         c = 0
-        if x < 0.01:
-            return self.burn()
+        if x < 0.05:
+            return self.burn() #there is a 0.05% chance a grass tile will self immulate, this is just for testing fire
+        test = where(isinstance(environment.flat[0], dirt_class.dirt)) #ignore, was testing things
         for rows in environment:
             for element in rows:
                 if isinstance(element, fire_class.fire):
-                    if x < 30:
-                        return self.burn()
-                if isinstance(element, grass):
+                    if x < 20:
+                        return self.burn() #if there is fire next to a grass tile, there is a 20% chance the grass tile will catch on fire
+                if isinstance(element, tree_class.tree):
                     c += 1
-                    if c == 6:
-                        if x < 0.2:
+                    if c == 4:
+                        if x < 2:
                             return self.turn_to_tree()
-                    if c == 11:
+                    if c == 8:
                         return self.turn_to_tree()
-        if x < 0.01:
+        if x < 0.1: #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
 
     def turn_to_tree(self):

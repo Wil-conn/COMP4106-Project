@@ -16,13 +16,13 @@ def main():
     #creates the board object
     board = gameboard(GAME_SIZE, GAME_SIZE, c)
     board.fill_board()
-
+    round = 0
     while(1):
-        board.next_cycle()
+        board.next_cycle(round)
         board.display()
         root.update_idletasks()
         root.update()
-        time.sleep(0.5)
+        round += 1
 
 if __name__ == "__main__":
     main()
