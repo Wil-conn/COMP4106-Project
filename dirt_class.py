@@ -1,4 +1,5 @@
-from grass_class import grass
+#from grass_class import grass
+from grass_class import *
 from numpy import random
 
 class dirt:
@@ -25,8 +26,9 @@ class dirt:
                         return self.turn_to_grass()
         if x < 0.02:
             return self.turn_to_grass()
+        c = 0
     #creates a new grass object and returns to the gameboard where this new object should be places
     def turn_to_grass(self):
         new_grass = grass(self.x, self.y)
-        x = (self.x, self.y, new_grass)
+        x = (self.x, self.y, grass(self.x, self.y))
         return x
