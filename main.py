@@ -5,7 +5,7 @@ from game import gameboard
 import time
 import profile
 
-GAME_SIZE = 400
+GAME_SIZE = 500
 def main():
 
     #setting up the tkinter canvas
@@ -28,5 +28,5 @@ def main():
         print("cycle number " + str(round) + " took " + str(time.time() - start))
 
 if __name__ == "__main__":
-    profile.run('main()')
-    #main()
+    #profile.run('main()')
+    main()
