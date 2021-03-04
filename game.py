@@ -15,6 +15,9 @@ class gameboard():
             for j in range (0, self.cols, 5):
                 self.c.create_rectangle(i, j, i+5, j+5, fill = self.map[i][j].colour)
 
+    def update_block(self, x, y):
+        self.c.create_rectangle(x, y, x+5, y+5, fill = self.map[x][y].colour)
+
     #adds a cell to the board. right now it only adds dirt
     def add_cell(self, x, y):
         self.map[x][y] = dirt(x, y)
@@ -56,3 +59,4 @@ class gameboard():
                 new_tile = self.map[i][j].cycle(view, round)
                 if new_tile != None:
                     self.map[i][j] = new_tile[2] #we are using the [2] index to get the new object. [0] and [1] contain the x and y coords
+                    self.update_block(i, j)

@@ -15,7 +15,6 @@ class dirt:
     def cycle(self, environment, round):
         if round % 5 == 0: #this makes it grass only grows every 5 cycles
             x = random.rand() * 100
-            multiplyer = 1
             c = 0
             for rows in environment:
                 for element in rows:

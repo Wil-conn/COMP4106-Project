@@ -3,9 +3,9 @@ import numpy as np
 from numpy import random
 from game import gameboard
 import time
+import profile
 
 GAME_SIZE = 400
-
 def main():
 
     #setting up the tkinter canvas
@@ -17,12 +17,16 @@ def main():
     board = gameboard(GAME_SIZE, GAME_SIZE, c)
     board.fill_board()
     round = 0
+    board.display()
     while(1):
+        start = time.time()
         board.next_cycle(round)
-        board.display()
+        #board.display()
         root.update_idletasks()
         root.update()
         round += 1
+        print("cycle number " + str(round) + " took " + str(time.time() - start))
 
 if __name__ == "__main__":
-    main()
+    profile.run('main()')
+    #main()

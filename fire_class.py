@@ -1,6 +1,5 @@
 from numpy import random
 #from dirt_class import dirt
-import dirt_class
 class fire:
     def __init__(self, x, y):
         self.x = x
@@ -15,6 +14,7 @@ class fire:
             return self.extinguish()
 
     def extinguish(self):
+        import dirt_class
         x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
         return x
 
