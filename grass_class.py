@@ -6,6 +6,7 @@ from fire_class import fire
 import dirt_class
 import fire_class
 import tree_class
+import sheep_class
 
 class grass:
     def __init__(self, x, y):
@@ -18,6 +19,7 @@ class grass:
     def cycle(self, environment, round):
         x = random.rand() * 100
         c = 0
+        g = 0
         if x < 0.01:
             return self.burn() #there is a 0.05% chance a grass tile will self immulate, this is just for testing fire
         test = where(isinstance(environment.flat[0], dirt_class.dirt)) #ignore, was testing things
@@ -33,6 +35,10 @@ class grass:
                             return self.turn_to_tree()
                     if c == 7:
                         return self.turn_to_tree()
+                if isinstance(element, grass):
+                    g += 1
+                    if g > 3 and x < 30:
+                        return self.spawn_sheep() 
         if x < 0.3: #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
 
@@ -42,4 +48,8 @@ class grass:
 
     def burn(self):
         x = (self.x, self.y, fire_class.fire(self.x, self.y))
+        return x
+
+    def spawn_sheep(self):
+        x = (self.x, self.y, sheep_class.sheep(self.x, self.y))
         return x
