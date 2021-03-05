@@ -15,6 +15,7 @@ class grass:
         self.alive = True
         self.colour = "green"
         self.range = 1
+        self.movable = False
 
     def cycle(self, environment, round):
         x = random.rand() * 100

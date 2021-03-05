@@ -1,6 +1,7 @@
 import tkinter
 import numpy as np
 from dirt_class import dirt
+from sheep_class import sheep
 
 class gameboard():
     def __init__(self, x, y, c):
@@ -16,6 +17,7 @@ class gameboard():
                 self.c.create_rectangle(i, j, i+5, j+5, fill = self.map[i][j].colour)
 
     def update_block(self, x, y):
+        print(self.map[x][y])
         self.c.create_rectangle(x, y, x+5, y+5, fill = self.map[x][y].colour)
 
     #adds a cell to the board. right now it only adds dirt
@@ -57,6 +59,14 @@ class gameboard():
                 r = self.map[i][j].range
                 view = self.radius_around_coord(i, j, r)
                 new_tile = self.map[i][j].cycle(view, round)
+                old_tile = self.map[i][j]
                 if new_tile != None:
-                    self.map[i][j] = new_tile[2] #we are using the [2] index to get the new object. [0] and [1] contain the x and y coords
-                    self.update_block(i, j)
+                    if new_tile[2].movable == True: #handles moving entities
+                        self.map[new_tile[0]][new_tile[1]] = new_tile[2] #moves the entity to new location
+                        self.update_block(new_tile[0], new_tile[1])
+                        if isinstance(new_tile[2], sheep) and isinstance(old_tile, sheep):
+                            self.map[i][j] = old_tile.consume()[2] #replaces old location with dirt
+                            self.update_block(i, j)
+                    else: #handles static entities
+                        self.map[i][j] = new_tile[2] #we are using the [2] index to get the new object. [0] and [1] contain the x and y coords
+                        self.update_block(i, j)

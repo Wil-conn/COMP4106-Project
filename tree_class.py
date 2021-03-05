@@ -7,6 +7,7 @@ class tree:
         self.alive = True
         self.colour = "dark green"
         self.range = 1
+        self.movable = False
 
     def cycle(self, environment, round):
         for rows in environment:

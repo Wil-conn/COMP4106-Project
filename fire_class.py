@@ -7,6 +7,7 @@ class fire:
         self.alive = True
         self.colour = "red"
         self.range = 1
+        self.movable = False
 
     def cycle(self, environment, round):
         x = random.rand() * 100
