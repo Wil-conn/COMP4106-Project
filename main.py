@@ -5,7 +5,7 @@ from game import gameboard
 import time
 import profile
 
-GAME_SIZE = 500
+GAME_SIZE = 100
 def main():
 
     #setting up the tkinter canvas
