@@ -6,7 +6,7 @@ from numpy import random
 import random
 
 class sheep:
-    def __init__(self, x, y, name):
+    def __init__(self, x, y, tile):
         self.x = x
         self.y = y
         self.alive = True
@@ -14,14 +14,20 @@ class sheep:
         self.range = 3
         self.movable = True
         self.food = 5
-        self.name = name #used for testing. will probably be removed in the final version
+        self.tile_on = tile #used to store what the tile was before the sheep moved on to it
 
-    def cycle(self, environment, round): #round argument just for testing something. will be removed later
-        print("sheep #"+str(self.name)+"has a hunger value of: "+str(self.food))
+    def cycle(self, environment, round):
+        print("sheep is on " + str(self.tile_on))
+        if self.food == 0:
+            return self.starve()
         #temp nums used for random movement
+        if round % 3 != 0:
+            return None
+
         move_x = random.randrange(-1, 2, 1)
         move_y = random.randrange(-1, 2, 1)
         self.food -= 1
+
 
         if self.x <= TILE_SIZE:
             move_x += 1
@@ -50,7 +56,12 @@ class sheep:
 
     def consume(self):
         #print('consume')
-        self.food += 1
+        if isinstance(self.tile_on, grass_class.grass):
+            self.food += 1 # if the sheep consumes a grass tile, it gets 1 point of hunger back
+        x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
+        return x
+
+    def starve(self):
         x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
         return x
 

@@ -63,9 +63,12 @@ class gameboard():
                 new_tile = self.map[i][j].cycle(view, round)
                 if new_tile != None:
                     if new_tile[2].movable == True: #handles moving entities
+                        new_tile[2].tile_on = self.map[new_tile[0]][new_tile[1]] #sets the sheeps new tile_on as what the tile used to be before the sheep
                         self.map[new_tile[0]][new_tile[1]] = new_tile[2] #we need to update the new tile it moved to
                         self.update_block(new_tile[0], new_tile[1])
                         if isinstance(new_tile[2], sheep) and isinstance(old_tile, sheep):
+                            if i == new_tile[0] and j == new_tile[1]: #This check stops a sheep from consuming itself if it chooses a move of 0,0
+                                continue
                             self.map[i][j] = old_tile.consume()[2] #replaces old location with dirt
                             self.update_block(i, j)
                     else: #handles static entities
