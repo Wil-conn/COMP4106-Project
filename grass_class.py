@@ -8,7 +8,7 @@ import fire_class
 import tree_class
 import sheep_class
 
-sheep_number = 0
+sheep_number = 0 #this is just used for testing to see if sheep objects were persistent
 
 class grass:
     def __init__(self, x, y):
@@ -20,7 +20,7 @@ class grass:
         self.movable = False
 
     def cycle(self, environment, round):
-        global sheep_number
+        global sheep_number #used for testing. not important
         x = random.rand() * 100
         c = 0
         g = 0
@@ -43,7 +43,7 @@ class grass:
                     #g += 1
                     if x < 10:
                         sheep_number+=1
-                        return self.spawn_sheep(sheep_number)  #round argument is just for testing something
+                        return self.spawn_sheep(sheep_number)  #sheep_number argument is just for testing something
         if x < 0.3: #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
 
@@ -56,5 +56,5 @@ class grass:
         return x
 
     def spawn_sheep(self, round):
-        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, round))
+        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, round)) #round argument just for testing, will be removed
         return x

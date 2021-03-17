@@ -14,9 +14,9 @@ class sheep:
         self.range = 3
         self.movable = True
         self.food = 5
-        self.name = name
+        self.name = name #used for testing. will probably be removed in the final version
 
-    def cycle(self, environment, round):
+    def cycle(self, environment, round): #round argument just for testing something. will be removed later
         print("sheep #"+str(self.name)+"has a hunger value of: "+str(self.food))
         #temp nums used for random movement
         move_x = random.randrange(-1, 2, 1)
