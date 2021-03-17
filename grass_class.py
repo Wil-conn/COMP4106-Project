@@ -8,6 +8,8 @@ import fire_class
 import tree_class
 import sheep_class
 
+sheep_number = 0
+
 class grass:
     def __init__(self, x, y):
         self.x = x
@@ -18,6 +20,7 @@ class grass:
         self.movable = False
 
     def cycle(self, environment, round):
+        global sheep_number
         x = random.rand() * 100
         c = 0
         g = 0
@@ -37,9 +40,10 @@ class grass:
                     if c == 7:
                         return self.turn_to_tree()
                 if isinstance(element, grass):
-                    g += 1
-                    if g > 3 and x < 30:
-                        return self.spawn_sheep() 
+                    #g += 1
+                    if x < 10:
+                        sheep_number+=1
+                        return self.spawn_sheep(sheep_number)  #round argument is just for testing something
         if x < 0.3: #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
 
@@ -51,6 +55,6 @@ class grass:
         x = (self.x, self.y, fire_class.fire(self.x, self.y))
         return x
 
-    def spawn_sheep(self):
-        x = (self.x, self.y, sheep_class.sheep(self.x, self.y))
+    def spawn_sheep(self, round):
+        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, round))
         return x
