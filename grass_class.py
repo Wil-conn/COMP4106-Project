@@ -37,11 +37,13 @@ class grass:
                             return self.turn_to_tree()
                     if c == 7:
                         return self.turn_to_tree()
+                '''
                 if isinstance(element, grass):
                     #g += 1
                     if x < 3:
                         return self.spawn_sheep()  #sheep_number argument is just for testing something
-        if x < 5: #0.1% chance any grass tile might turn into a tree
+                        '''
+        if x < 1: #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
 
     def turn_to_tree(self):

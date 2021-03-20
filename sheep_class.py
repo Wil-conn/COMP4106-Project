@@ -13,7 +13,7 @@ class sheep:
         self.colour = "white"
         self.range = 3
         self.movable = True
-        self.food = 5
+        self.food = 30
         self.tile_on = tile #used to store what the tile was before the sheep moved on to it
 
     def cycle(self, environment, round):

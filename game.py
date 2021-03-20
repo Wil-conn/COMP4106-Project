@@ -3,6 +3,7 @@ import numpy as np
 from settings import *
 from dirt_class import dirt
 from sheep_class import sheep
+import random
 
 class gameboard():
     def __init__(self, x, y, c):
@@ -23,7 +24,11 @@ class gameboard():
 
     #adds a cell to the board. right now it only adds dirt
     def add_cell(self, x, y):
-        self.map[x][y] = dirt(x, y)
+        r = random.randint(0,100)
+        if r<1:
+            self.map[x][y] = sheep(x, y, dirt)
+        else:
+            self.map[x][y] = dirt(x, y)
 
     #fills the board with dirt. used for when game is being initialize
     def fill_board(self):
