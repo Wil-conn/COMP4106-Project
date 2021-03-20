@@ -1,7 +1,9 @@
 import grass_class
 import fire_class
 import dirt_class
-from settings import *
+from settings import TILE_SIZE
+from settings import GAME_SIZE
+import settings
 from numpy import random
 import random
 
@@ -43,7 +45,7 @@ class sheep:
             for element in rows:
                 if(element != None):
                     if self.x-1 <= element.x <= self.x+1 or self.y-1 <= element.y <= self.y+1:
-                        if isinstance(element, fire_class.fire):
+                        if isinstance(element, fire_class.fire) and settings.WEATHER != "Rain":
                             return self.burn() #if sheep is adjacent to fire, 50% chance it burns
         print("sheep class move_x move_y " + str(move_x) +","+str(move_y))
         print("sheep class self.x self.y " + str(self.x) +","+str(self.y))

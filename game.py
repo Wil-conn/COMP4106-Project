@@ -1,6 +1,8 @@
 import tkinter
 import numpy as np
-from settings import *
+from settings import GAME_SIZE
+from settings import TILE_SIZE
+import settings
 from dirt_class import dirt
 from sheep_class import sheep
 import random
@@ -11,12 +13,15 @@ class gameboard():
         self.rows = y
         self.map = np.empty((self.cols, self.rows), dtype = object)
         self.c = c
+        self.weather_cycle = 10
 
     #goes through every block in the array and draws it on screen according to its colour. every block has a size of 5x5 pixels
     def display(self):
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 self.c.create_rectangle(i, j, i+TILE_SIZE, j+TILE_SIZE, fill = self.map[i][j].colour)
+        self.c.create_rectangle(0, GAME_SIZE, GAME_SIZE, GAME_SIZE+50, fill="Grey")
+        self.weather_id = self.c.create_text(GAME_SIZE/2, GAME_SIZE+10, fill="Black", text=settings.WEATHER)
 
     def update_block(self, x, y):
         #print(self.map[x][y])
@@ -36,6 +41,27 @@ class gameboard():
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 self.add_cell(i, j)
+
+    def update_weather(self):
+        if self.weather_cycle == 0:
+            r = random.randint(0,100)
+            if r <= 25:
+                settings.WEATHER = "Rain"
+                self.weather_cycle = random.randrange(30, 60, 1)
+            elif r > 25 and r <= 50:
+                settings.WEATHER = "Sunny"
+                self.weather_cycle = random.randrange(30, 60, 1)
+            elif r > 50 and r <= 75:
+                settings.WEATHER = "Cloudy"
+                self.weather_cycle = random.randrange(30, 60, 1)
+            else:
+                settings.WEATHER = "Lightning"
+                self.weather_cycle = random.randrange(10, 15, 1)
+            self.c.delete(self.weather_id)
+            self.weather_id = self.c.create_text(GAME_SIZE/2, GAME_SIZE+10, fill="Black", text=settings.WEATHER)
+            
+        else:
+            self.weather_cycle -= 1
 
     #this returns an NxN array which contains all the objects in a radius R around a given block
     #this is used for determining what said block is able to "see"
@@ -79,3 +105,4 @@ class gameboard():
                     else: #handles static entities
                         self.map[i][j] = new_tile[2] #we are using the [2] index to get the new object. [0] and [1] contain the x and y coords
                         self.update_block(i, j)
+        self.update_weather()

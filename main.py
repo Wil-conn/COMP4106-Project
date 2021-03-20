@@ -4,12 +4,13 @@ from numpy import random
 from game import gameboard
 import time
 import profile
-from settings import *
+import settings
+from settings import GAME_SIZE
 
 def main():
     #setting up the tkinter canvas
     root = tkinter.Tk()
-    c = tkinter.Canvas(root, bg="black", height = GAME_SIZE, width = GAME_SIZE)
+    c = tkinter.Canvas(root, bg="black", height = GAME_SIZE+50, width = GAME_SIZE)
     c.pack()
 
     #creates the board object

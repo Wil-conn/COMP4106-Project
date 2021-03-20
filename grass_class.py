@@ -7,7 +7,7 @@ import dirt_class
 import fire_class
 import tree_class
 import sheep_class
-
+import settings
 
 class grass:
     def __init__(self, x, y):
@@ -22,12 +22,12 @@ class grass:
         x = random.rand() * 100
         c = 0
         g = 0
-        if x < 0.01:
+        if x < 0.01 and settings.WEATHER != "Rain":
             return self.burn() #there is a 0.05% chance a grass tile will self immulate, this is just for testing fire
         test = where(isinstance(environment.flat[0], dirt_class.dirt)) #ignore, was testing things
         for rows in environment:
             for element in rows:
-                if isinstance(element, fire_class.fire):
+                if isinstance(element, fire_class.fire) and settings.WEATHER != "Rain":
                     if x < 20:
                         return self.burn() #if there is fire next to a grass tile, there is a 20% chance the grass tile will catch on fire
                 if isinstance(element, tree_class.tree):
@@ -43,6 +43,7 @@ class grass:
                     if x < 3:
                         return self.spawn_sheep()  #sheep_number argument is just for testing something
                         '''
+                        
         if x < 1: #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
 

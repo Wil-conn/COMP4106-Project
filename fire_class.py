@@ -1,4 +1,5 @@
 from numpy import random
+import settings
 #from dirt_class import dirt
 class fire:
     def __init__(self, x, y):
@@ -11,6 +12,9 @@ class fire:
 
     def cycle(self, environment, round):
         x = random.rand() * 100
+        if settings.WEATHER == "Rain":
+            print("rain")
+            return self.extinguish()
         if x < 80:
             return self.extinguish()
 
