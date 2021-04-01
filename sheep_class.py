@@ -1,6 +1,7 @@
 import grass_class
 import fire_class
 import dirt_class
+import tree_class
 from settings import TILE_SIZE
 from settings import GAME_SIZE
 import settings
@@ -21,21 +22,18 @@ class sheep:
         self.tile_on = tile #used to store what the tile was before the sheep moved on to it
 
     def cycle(self, environment, round):
-        # print("sheep is on " + str(self.tile_on))
         if self.food == 0:
             return self.starve()
         #temp nums used for random movement
         #if round % 3 != 0:
         #    return None
 
-        #print("movex and movey from random")
-        #print(move_x, move_y)
         self.food -= 1
 
         grass_locations = []
-        #print(environment)
-        print(environment)
+
         # finds the location of any grass tiles in its view
+        '''
         cx, cy = -(self.range), -(self.range)
         for row in environment:
             for element in row:
@@ -44,7 +42,9 @@ class sheep:
                 cx += 1
             cx = -(self.range)
             cy += 1
-        print(grass_locations)
+        '''
+        grass_locations = self.get_location_of_object(grass_class.grass, environment)
+        #print(grass_locations)
 
         #print("GRASS LOCATIONS: "+str(grass_locations))
         #print(grass_locations)
@@ -54,8 +54,11 @@ class sheep:
 
         else:
             if len(grass_locations) != 0:
-                best_move = self.chooseMove(grass_locations)
+                best_move = self.chooseMove(environment)
                 print("BEST MOVE IS : "+str(best_move))
+                move_y = best_move[0]
+                move_x = best_move[1]
+                '''
                 if best_move == "up":
                     move_x = 0
                     move_y = -1
@@ -68,9 +71,10 @@ class sheep:
                 if best_move == "right":
                     move_x = 1
                     move_y = 0
+                    '''
             else:
-                move_x = 0
-                move_y = 0
+                move_x = random.randrange(-1, 2, 1)
+                move_y = random.randrange(-1, 2, 1)
         if self.x <= TILE_SIZE:
             move_x += 1
         elif self.x >= GAME_SIZE-(TILE_SIZE+1):
@@ -95,17 +99,12 @@ class sheep:
 
     # This is a very inelegant implementation but it works and that is all that matters
     # might clean it up later if we have time
-    def chooseMove(self, grass_locations):
+    def chooseMove(self, environment):
         move = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-        '''
-        moves = {
-            "up": (0, -1),
-            "down": (0, 1),
-            "left": (-1, 0),
-            "right": (1, 0)
-        }
-        '''
-        #print("NEW SHEEP")
+
+        grass_locations = self.get_location_of_object(grass_class.grass, environment)
+        tree_location = self.get_location_of_object(tree_class.tree, environment)
+
         for element in grass_locations:
             print("ELEMENT IN GRASS LOCATION: " + str(element))
             # calculates the manhattan distance for each direction it can move
@@ -120,13 +119,15 @@ class sheep:
             right = math.sqrt((move[3][0]-element[0])**2 + (move[3][1] - element[1])**2)
             '''
 
-            l = (up, down, left, right)
+            l = [up, down, left, right]
             #print(l)
 
             # l.index(min(l)) gets which move has the min value where 0 is up, 1 is down, 2 is left, 3 is right
             # also gets the values associated with that move and saves them in the tuple move
 
             moves = (l.index(min(l)), (min(l)))
+            # if the best move contains a tile we cannot stand on then we chose the next best move
+
             #print("the best move direction is " + str(moves[0]) + " with a value of " + str(moves[1]))
             #print(l)
             try:
@@ -134,16 +135,20 @@ class sheep:
                     h1 = moves
             except:
                 h1 = moves
-        print("PRNTING H1" + str(h1))
-        #return moves[0]
-        if h1[0] == 0:
-            return "up"
-        if h1[0] == 1:
-            return "down"
-        if h1[0] == 2:
-            return "left"
-        if h1[0] == 3:
-            return "right"
+
+        return move[h1[0]]
+
+    def get_location_of_object(self, object, environment):
+        locations = []
+        cx, cy = -(self.range), -(self.range)
+        for row in environment:
+            for element in row:
+                if isinstance(element, grass_class.grass):
+                    locations.append((cx, cy))
+                cx += 1
+            cx = -(self.range)
+            cy += 1
+        return locations
 
     def burn(self):
         x = (self.x, self.y, fire_class.fire(self.x, self.y))
