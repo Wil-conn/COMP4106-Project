@@ -5,7 +5,9 @@ from settings import TILE_SIZE
 import settings
 from dirt_class import dirt
 from sheep_class import sheep
+from grass_class import grass
 import random
+
 
 class gameboard():
     def __init__(self, x, y, c):
@@ -32,6 +34,8 @@ class gameboard():
         r = random.randint(0,100)
         if r<1:
             self.map[x][y] = sheep(x, y, dirt)
+        elif 2 < r < 10:
+            self.map[x][y] = grass(x, y)
         else:
             self.map[x][y] = dirt(x, y)
 
@@ -41,6 +45,7 @@ class gameboard():
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 self.add_cell(i, j)
+        #self.map[5 * TILE_SIZE][5 * TILE_SIZE] = sheep(5 * TILE_SIZE, 5 * TILE_SIZE, dirt)
 
     def update_weather(self):
         if self.weather_cycle == 0:
@@ -59,7 +64,7 @@ class gameboard():
                 self.weather_cycle = random.randrange(10, 15, 1)
             self.c.delete(self.weather_id)
             self.weather_id = self.c.create_text(GAME_SIZE/2, GAME_SIZE+10, fill="Black", text=settings.WEATHER)
-            
+
         else:
             self.weather_cycle -= 1
 
@@ -80,28 +85,34 @@ class gameboard():
                     cols += 1
             rows += 1
             cols = 0
-
         return view
 
     #Goes through every block on the board in order to determine what said block should do this cycle
     #for every block it gets the view that block can see and calls the block's cycle function which is what decides what action will be taken
     def next_cycle(self, round):
+        # keeps track of which sheep have been moved this cycle so that a sheep does not get stuck in a loop of cycling
+        moved = []
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 r = self.map[i][j].range
                 view = self.radius_around_coord(i, j, r)
                 old_tile = self.map[i][j]
-                new_tile = self.map[i][j].cycle(view, round)
+                if self.map[i][j] not in moved:
+                    new_tile = self.map[i][j].cycle(view, round)
                 if new_tile != None:
-                    if new_tile[2].movable == True: #handles moving entities
-                        new_tile[2].tile_on = self.map[new_tile[0]][new_tile[1]] #sets the sheeps new tile_on as what the tile used to be before the sheep
-                        self.map[new_tile[0]][new_tile[1]] = new_tile[2] #we need to update the new tile it moved to
+                    # handles moving entities
+                    if new_tile[2].movable == True and new_tile[2] not in moved:
+                        # sets the sheeps new tile_on as what the tile used to be before the sheep
+                        new_tile[2].tile_on = self.map[new_tile[0]][new_tile[1]]
+                        # we need to update the new tile it moved to
+                        self.map[new_tile[0]][new_tile[1]] = new_tile[2]
                         self.update_block(new_tile[0], new_tile[1])
                         if isinstance(new_tile[2], sheep) and isinstance(old_tile, sheep):
                             if i == new_tile[0] and j == new_tile[1]: #This check stops a sheep from consuming itself if it chooses a move of 0,0
                                 continue
                             self.map[i][j] = old_tile.consume()[2] #replaces old location with dirt
                             self.update_block(i, j)
+                            moved.append(new_tile[2])
                     else: #handles static entities
                         self.map[i][j] = new_tile[2] #we are using the [2] index to get the new object. [0] and [1] contain the x and y coords
                         self.update_block(i, j)

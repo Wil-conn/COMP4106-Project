@@ -43,7 +43,7 @@ class grass:
                     if x < 3:
                         return self.spawn_sheep()  #sheep_number argument is just for testing something
                         '''
-                        
+
         if x < 1: #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
 

@@ -19,14 +19,15 @@ def main():
     round = 0
     board.display()
     while(1):
+        print("CYCLE NUMBER: "+str(round))
         start = time.time()
         board.next_cycle(round)
         #board.display()
         root.update_idletasks()
         root.update()
         round += 1
-        time.sleep(0.2)
-        print("cycle number " + str(round) + " took " + str(time.time() - start))
+        time.sleep(0.5)
+        #print("cycle number " + str(round) + " took " + str(time.time() - start))
 
 if __name__ == "__main__":
     #profile.run('main()')
