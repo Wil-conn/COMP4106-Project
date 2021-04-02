@@ -75,11 +75,11 @@ class sheep:
             else:
                 move_x = random.randrange(-1, 2, 1)
                 move_y = random.randrange(-1, 2, 1)
-        if self.x <= TILE_SIZE:
+        if self.x < TILE_SIZE:
             move_x += 1
         elif self.x >= GAME_SIZE-(TILE_SIZE+1):
             move_x -= 1
-        if self.y <= TILE_SIZE:
+        if self.y < TILE_SIZE:
             move_y += 1
         elif self.y >= GAME_SIZE-(TILE_SIZE+1):
             move_y -= 1
