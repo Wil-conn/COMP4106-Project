@@ -45,7 +45,7 @@ class gameboard():
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 self.add_cell(i, j)
-        #self.map[5 * TILE_SIZE][5 * TILE_SIZE] = sheep(5 * TILE_SIZE, 5 * TILE_SIZE, dirt)
+        #self.map[10 * TILE_SIZE][10 * TILE_SIZE] = sheep(10 * TILE_SIZE, 10 * TILE_SIZE, dirt)
 
     def update_weather(self):
         if self.weather_cycle == 0:

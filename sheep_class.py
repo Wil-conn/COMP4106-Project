@@ -55,7 +55,7 @@ class sheep:
         else:
             if len(grass_locations) != 0:
                 best_move = self.chooseMove(environment)
-                print("BEST MOVE IS : "+str(best_move))
+                #print("BEST MOVE IS : "+str(best_move))
                 move_y = best_move[0]
                 move_x = best_move[1]
                 '''
@@ -105,6 +105,9 @@ class sheep:
         grass_locations = self.get_location_of_object(grass_class.grass, environment)
         tree_location = self.get_location_of_object(tree_class.tree, environment)
 
+        for elements in tree_location:
+            print("ELEMENTS IN TREE LOCATIONS: "+str(elements))
+
         for element in grass_locations:
             print("ELEMENT IN GRASS LOCATION: " + str(element))
             # calculates the manhattan distance for each direction it can move
@@ -119,22 +122,33 @@ class sheep:
             right = math.sqrt((move[3][0]-element[0])**2 + (move[3][1] - element[1])**2)
             '''
 
+
             l = [up, down, left, right]
             #print(l)
 
             # l.index(min(l)) gets which move has the min value where 0 is up, 1 is down, 2 is left, 3 is right
             # also gets the values associated with that move and saves them in the tuple move
+            heur = (l.index(min(l)), (min(l)))
 
-            moves = (l.index(min(l)), (min(l)))
+            # check if the best move has a tree
+            while move[heur[0]] in tree_location:
+                print("BEST MOVE AT" + str(move[heur[0]]) + " HAS TREE")
+                print("L BEFORE REMOVING " + str(l))
+                l[l.index(min(l))] = 100
+                #l.remove(min(l))
+
+                print("removing " + str(min(l)))
+                heur = (l.index(min(l)), (min(l)))
+                print("NEXT BEST LOCATION AT " + str(move[heur[0]]))
             # if the best move contains a tile we cannot stand on then we chose the next best move
 
             #print("the best move direction is " + str(moves[0]) + " with a value of " + str(moves[1]))
             #print(l)
             try:
-                if moves[1] < h1[1]:
-                    h1 = moves
+                if heur[1] < h1[1]:
+                    h1 = heur
             except:
-                h1 = moves
+                h1 = heur
 
         return move[h1[0]]
 
@@ -143,7 +157,7 @@ class sheep:
         cx, cy = -(self.range), -(self.range)
         for row in environment:
             for element in row:
-                if isinstance(element, grass_class.grass):
+                if isinstance(element, object):
                     locations.append((cx, cy))
                 cx += 1
             cx = -(self.range)
