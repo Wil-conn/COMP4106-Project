@@ -15,7 +15,7 @@ class dirt:
     #for the dirt block it goes through every element of its environment, if there is a grass block in its environment then there is a 20% chance said dirt block will become a grass block
     def cycle(self, environment, round):
         m = 1 + (round / 300)
-        if round % 1 != 0: #this makes it grass only grows every 5 cycles
+        if round % 3 != 0: #this makes it grass only grows every 5 cycles
             return None
 
         x = random.rand() * 100
@@ -29,6 +29,7 @@ class dirt:
                         return self.turn_to_grass()
                     elif x * m < 2:
                         return self.turn_to_grass()
+
         if x * m < 0.02:
             return self.turn_to_grass()
         c = 0

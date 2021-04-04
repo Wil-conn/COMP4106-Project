@@ -11,6 +11,10 @@ class tree:
         self.movable = False
 
     def cycle(self, environment, round):
+        # for testing
+        if round % 5 != 0:
+            return None
+
         for rows in environment:
             for element in rows:
                 if isinstance(element, fire_class.fire) and settings.WEATHER != "Rain":

@@ -24,57 +24,29 @@ class sheep:
     def cycle(self, environment, round):
         if self.food == 0:
             return self.starve()
-        #temp nums used for random movement
-        #if round % 3 != 0:
-        #    return None
 
         self.food -= 1
 
-        grass_locations = []
-
         # finds the location of any grass tiles in its view
-        '''
-        cx, cy = -(self.range), -(self.range)
-        for row in environment:
-            for element in row:
-                if isinstance(element, grass_class.grass):
-                    grass_locations.append((cx, cy))
-                cx += 1
-            cx = -(self.range)
-            cy += 1
-        '''
         grass_locations = self.get_location_of_object(grass_class.grass, environment)
-        #print(grass_locations)
 
-        #print("GRASS LOCATIONS: "+str(grass_locations))
-        #print(grass_locations)
+        # During cycle 0 the sheep gets a random move to make to initialize it
         if round == 0:
             move_x = random.randrange(-1, 2, 1)
             move_y = random.randrange(-1, 2, 1)
 
+        # if there is a grass tile in it's view it will try to move towards it. otherwise it makes a random move
         else:
             if len(grass_locations) != 0:
                 best_move = self.chooseMove(environment)
                 #print("BEST MOVE IS : "+str(best_move))
                 move_y = best_move[0]
                 move_x = best_move[1]
-                '''
-                if best_move == "up":
-                    move_x = 0
-                    move_y = -1
-                if best_move == "down":
-                    move_x = 0
-                    move_y = 1
-                if best_move == "left":
-                    move_x = -1
-                    move_y = 0
-                if best_move == "right":
-                    move_x = 1
-                    move_y = 0
-                    '''
             else:
                 move_x = random.randrange(-1, 2, 1)
                 move_y = random.randrange(-1, 2, 1)
+
+        # checks to make sure it doesn't go off board
         if self.x < TILE_SIZE:
             move_x += 1
         elif self.x >= GAME_SIZE-(TILE_SIZE+1):
@@ -83,6 +55,7 @@ class sheep:
             move_y += 1
         elif self.y >= GAME_SIZE-(TILE_SIZE+1):
             move_y -= 1
+
         #end random movement gen
         print("move_x = " + str(move_x) + " move_y = " + str(move_y))
         for rows in environment:
@@ -100,11 +73,15 @@ class sheep:
     # This is a very inelegant implementation but it works and that is all that matters
     # might clean it up later if we have time
     def chooseMove(self, environment):
+
         move = [(-1, 0), (1, 0), (0, -1), (0, 1)]
 
+        # gets the locations of all the grass, tree, and sheep tiles the sheep can see in it's view
         grass_locations = self.get_location_of_object(grass_class.grass, environment)
         tree_location = self.get_location_of_object(tree_class.tree, environment)
+        sheep_location = self.get_location_of_object(sheep, environment)
 
+        # used for testing
         for elements in tree_location:
             print("ELEMENTS IN TREE LOCATIONS: "+str(elements))
 
@@ -115,6 +92,8 @@ class sheep:
             down = abs(move[1][0] - element[0]) + abs(move[1][1] - element[1])
             left = abs(move[2][0] - element[0]) + abs(move[2][1] - element[1])
             right = abs(move[3][0] - element[0]) + abs(move[3][1] - element[1])
+
+            # The Euclidian distance, used for testing
             '''
             up = math.sqrt((move[0][0]-element[1])**2 + (move[0][1] - element[1])**2)
             down = math.sqrt((move[1][0]-element[0])**2 + (move[1][1] - element[1])**2)
@@ -130,20 +109,20 @@ class sheep:
             # also gets the values associated with that move and saves them in the tuple move
             heur = (l.index(min(l)), (min(l)))
 
-            # check if the best move has a tree
-            while move[heur[0]] in tree_location:
+            # check if the best move has a tree. If it does it sets the heuristic value of that move to 100, or some arbitrarily large number
+            # Because of the view the sheep has the manhattan distance will never be 100 so the sheep will never pick that move with a tree
+            while move[heur[0]] in tree_location or move[heur[0]] in sheep_location:
                 print("BEST MOVE AT" + str(move[heur[0]]) + " HAS TREE")
                 print("L BEFORE REMOVING " + str(l))
                 l[l.index(min(l))] = 100
-                #l.remove(min(l))
 
-                print("removing " + str(min(l)))
                 heur = (l.index(min(l)), (min(l)))
                 print("NEXT BEST LOCATION AT " + str(move[heur[0]]))
             # if the best move contains a tile we cannot stand on then we chose the next best move
 
             #print("the best move direction is " + str(moves[0]) + " with a value of " + str(moves[1]))
             #print(l)
+            # this is used to pick the best move if there are multiple possible grass tiles the sheep can go to
             try:
                 if heur[1] < h1[1]:
                     h1 = heur
@@ -152,6 +131,7 @@ class sheep:
 
         return move[h1[0]]
 
+    # functions that will return the locations of the given object tiles in the sheep's view
     def get_location_of_object(self, object, environment):
         locations = []
         cx, cy = -(self.range), -(self.range)
@@ -180,9 +160,9 @@ class sheep:
         return x
 
     def move(self, x, y):
-        #m = (x, y, sheep(x, y))
         self.x = x
         self.y = y
-        m = (x, y, self) #using self rather than creating a new sheep object lets us keep track of the sheeps hunger as they move around. creating a new sheep object just creates the illusion of move, sending self lets the actual object move around
+        # using self rather than creating a new sheep object lets us keep track of the sheeps hunger as they move around. creating a new sheep object just creates the illusion of move, sending self lets the actual object move around
+        m = (x, y, self)
         return m
 
