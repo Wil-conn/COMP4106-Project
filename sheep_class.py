@@ -42,13 +42,17 @@ class sheep(animal.animal):
                 move_y = random.randrange(-1, 2, 1)
 
         # checks to make sure it doesn't go off board
-        if self.x < TILE_SIZE:
+        if self.x < TILE_SIZE and move_x == -1:
+            print("INSIDE SELF.x < TILE SIZE IF ")
             move_x += 1
-        elif self.x >= GAME_SIZE-(TILE_SIZE+1):
+        elif self.x >= GAME_SIZE-(TILE_SIZE+1) and move_x == 1:
+            print("INSIDE SELF.x >= GAME_SIZE - (TILE_SIZE+1) IF ")
             move_x -= 1
-        if self.y < TILE_SIZE:
+        if self.y < TILE_SIZE and move_y == -1:
+            print("INSIDE SELF.y < TILE SIZE IF ")
             move_y += 1
-        elif self.y >= GAME_SIZE-(TILE_SIZE+1):
+        elif self.y >= GAME_SIZE-(TILE_SIZE+1) and move_y == 1:
+            print("INSIDE SELF.y >= GAME_SIZE - (TILE_SIZE+1) IF ")
             move_y -= 1
 
         #end random movement gen
@@ -61,7 +65,7 @@ class sheep(animal.animal):
                             return self.burn() #if sheep is adjacent to fire, 50% chance it burns
         #print("sheep class move_x move_y " + str(move_x) +","+str(move_y))
         #print("sheep class self.x self.y " + str(self.x) +","+str(self.y))
-        #input("Press Enter to continue...")
+        input("Press Enter to continue...")
         return self.move(self.x + (move_x * TILE_SIZE), self.y + (move_y * TILE_SIZE))
         #return self.consume()
 

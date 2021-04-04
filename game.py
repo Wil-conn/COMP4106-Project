@@ -33,11 +33,11 @@ class gameboard():
     #adds a cell to the board. right now it only adds dirt
     def add_cell(self, x, y):
         r = random.randint(0,100)
-        if r<1:
-            self.map[x][y] = sheep(x, y, "white", 3, 50, dirt)
-        elif 1<r<2:
-            self.map[x][y] = sheep(x, y, "gray", 4, 20, dirt)
-        elif 2 < r < 10:
+        #if r<1:
+        #    self.map[x][y] = sheep(x, y, "white", 3, 50, dirt)
+        #elif 1<r<2:
+        #    self.map[x][y] = sheep(x, y, "gray", 4, 20, dirt)
+        if 2 < r < 10:
             self.map[x][y] = grass(x, y)
         else:
             self.map[x][y] = dirt(x, y)

@@ -33,7 +33,7 @@ class grass:
                 if isinstance(element, tree_class.tree):
                     c += 1
                     if c == 5:
-                        if x < 40:
+                        if x < 20:
                             return self.turn_to_tree()
                     if c == 7:
                         return self.turn_to_tree()
