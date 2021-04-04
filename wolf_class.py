@@ -9,8 +9,13 @@ import settings
 import numpy as np
 import random
 import math
-class wolf:
-    def __init__(self, x, y, tile):
+import animal
+
+
+class wolf(animal.animal):
+    def __init__(self, x, y, colour, range, food, tile):
+        super().__init__(x, y, colour, range, food, tile)
+        '''
         self.x = x
         self.y = y
         self.alive = True
@@ -19,8 +24,11 @@ class wolf:
         self.movable = True
         self.food = 20
         self.tile_on = tile
+        '''
 
     def cycle(self, environment, round):
+        if self.food == 0:
+            return self.starve()
         move_x = random.randrange(-1, 2, 1)
         move_y = random.randrange(-1, 2, 1)
 
@@ -33,10 +41,14 @@ class wolf:
         elif self.y >= GAME_SIZE-(TILE_SIZE+1):
             move_y -= 1
         return self.move(self.x + (move_x * TILE_SIZE), self.y + (move_y * TILE_SIZE))
-
+    '''
     def consume(self):
         if isinstance(self.tile_on, grass_class.grass):
-            self.food += 1 # if the sheep consumes a grass tile, it gets 1 point of hunger back
+            self.food += 1  # if the sheep consumes a grass tile, it gets 1 point of hunger back
+        x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
+        return x
+
+    def starve(self):
         x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
         return x
 
@@ -45,3 +57,4 @@ class wolf:
         self.y = y
         m = (x, y, self)
         return m
+    '''

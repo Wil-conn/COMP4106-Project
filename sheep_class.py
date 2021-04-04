@@ -9,9 +9,14 @@ import numpy as np
 #from numpy import random
 import random
 import math
+import animal
 
-class sheep:
-    def __init__(self, x, y, tile):
+
+class sheep(animal.animal):
+    def __init__(self, x, y, colour, range, food, tile):
+        super().__init__(x, y, colour, range, food, tile)
+
+        '''
         self.x = x
         self.y = y
         self.alive = True
@@ -20,6 +25,7 @@ class sheep:
         self.movable = True
         self.food = 50
         self.tile_on = tile #used to store what the tile was before the sheep moved on to it
+        '''
 
     def cycle(self, environment, round):
         if self.food == 0:
@@ -130,7 +136,7 @@ class sheep:
                 h1 = heur
 
         return move[h1[0]]
-
+    '''
     # functions that will return the locations of the given object tiles in the sheep's view
     def get_location_of_object(self, object, environment):
         locations = []
@@ -165,4 +171,4 @@ class sheep:
         # using self rather than creating a new sheep object lets us keep track of the sheeps hunger as they move around. creating a new sheep object just creates the illusion of move, sending self lets the actual object move around
         m = (x, y, self)
         return m
-
+'''
