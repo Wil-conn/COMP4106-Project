@@ -6,6 +6,7 @@ import settings
 from dirt_class import dirt
 from sheep_class import sheep
 from grass_class import grass
+from wolf_class import wolf
 import random
 
 
@@ -45,7 +46,7 @@ class gameboard():
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 self.add_cell(i, j)
-        #self.map[10 * TILE_SIZE][10 * TILE_SIZE] = sheep(10 * TILE_SIZE, 10 * TILE_SIZE, dirt)
+        self.map[10 * TILE_SIZE][10 * TILE_SIZE] = wolf(10 * TILE_SIZE, 10 * TILE_SIZE, dirt)
 
     def update_weather(self):
         if self.weather_cycle == 0:
@@ -107,7 +108,7 @@ class gameboard():
                         # we need to update the new tile it moved to
                         self.map[new_tile[0]][new_tile[1]] = new_tile[2]
                         self.update_block(new_tile[0], new_tile[1])
-                        if isinstance(new_tile[2], sheep) and isinstance(old_tile, sheep):
+                        if isinstance(new_tile[2], sheep) and isinstance(old_tile, sheep) or isinstance(new_tile[2], wolf) and isinstance(old_tile, wolf):
                             if i == new_tile[0] and j == new_tile[1]: #This check stops a sheep from consuming itself if it chooses a move of 0,0
                                 continue
                             self.map[i][j] = old_tile.consume()[2] #replaces old location with dirt
