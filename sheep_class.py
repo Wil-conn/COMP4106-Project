@@ -65,7 +65,7 @@ class sheep(animal.animal):
                             return self.burn() #if sheep is adjacent to fire, 50% chance it burns
         #print("sheep class move_x move_y " + str(move_x) +","+str(move_y))
         #print("sheep class self.x self.y " + str(self.x) +","+str(self.y))
-        input("Press Enter to continue...")
+        #input("Press Enter to continue...")
         return self.move(self.x + (move_x * TILE_SIZE), self.y + (move_y * TILE_SIZE))
         #return self.consume()
 
@@ -79,10 +79,6 @@ class sheep(animal.animal):
         grass_locations = self.get_location_of_object(grass_class.grass, environment)
         tree_location = self.get_location_of_object(tree_class.tree, environment)
         sheep_location = self.get_location_of_object(sheep, environment)
-
-        # used for testing
-        for elements in tree_location:
-            print("ELEMENTS IN TREE LOCATIONS: "+str(elements))
 
         for element in grass_locations:
             print("ELEMENT IN GRASS LOCATION: " + str(element))

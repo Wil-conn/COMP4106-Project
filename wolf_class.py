@@ -47,19 +47,25 @@ class wolf(animal.animal):
         return self.move(self.x + (move_x * TILE_SIZE), self.y + (move_y * TILE_SIZE))
 
     def chooseMove(self, environment):
-        move = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        # wolves have the ability to move 8 direction instead of 4 like sheep
+        move = [(-1, 0), (-1, -1), (-1, 1), (1, 0), (1, -1), (1, 1), (0, -1), (0, 1)]
         grass_locations = self.get_location_of_object(grass_class.grass, environment)
         tree_location = self.get_location_of_object(tree_class.tree, environment)
         sheep_location = self.get_location_of_object(sheep_class.sheep, environment)
         wolf_location = self.get_location_of_object(wolf, environment)
 
         for element in sheep_location:
-            up = abs(move[0][0] - element[0]) + abs(move[0][1] - element[1])
-            down = abs(move[1][0] - element[0]) + abs(move[1][1] - element[1])
-            left = abs(move[2][0] - element[0]) + abs(move[2][1] - element[1])
-            right = abs(move[3][0] - element[0]) + abs(move[3][1] - element[1])
+            # because the wolves can move diagonally the Euclidian distance is a better heuristic
+            up = math.sqrt((move[0][0] - element[0])**2 + (move[0][1] - element[1])**2)
+            up_left = math.sqrt((move[1][0] - element[0])**2 + (move[1][1] - element[1])**2)
+            up_right = math.sqrt((move[2][0] - element[0])**2 + (move[2][1] - element[1])**2)
+            down = math.sqrt((move[3][0] - element[0])**2 + (move[3][1] - element[1])**2)
+            down_left = math.sqrt((move[4][0] - element[0])**2 + (move[4][1] - element[1])**2)
+            down_right = math.sqrt((move[5][0] - element[0])**2 + (move[5][1] - element[1])**2)
+            left = math.sqrt((move[6][0] - element[0])**2 + (move[6][1] - element[1])**2)
+            right = math.sqrt((move[7][0] - element[0])**2 + (move[7][1] - element[1])**2)
 
-            l = [up, down, left, right]
+            l = [up, up_left, up_right, down, down_left, down_right, left, right]
 
             heur = (l.index(min(l)), (min(l)))
 
