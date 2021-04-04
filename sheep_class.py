@@ -16,17 +16,6 @@ class sheep(animal.animal):
     def __init__(self, x, y, colour, range, food, tile):
         super().__init__(x, y, colour, range, food, tile)
 
-        '''
-        self.x = x
-        self.y = y
-        self.alive = True
-        self.colour = "white"
-        self.range = 3
-        self.movable = True
-        self.food = 50
-        self.tile_on = tile #used to store what the tile was before the sheep moved on to it
-        '''
-
     def cycle(self, environment, round):
         if self.food == 0:
             return self.starve()
@@ -136,39 +125,3 @@ class sheep(animal.animal):
                 h1 = heur
 
         return move[h1[0]]
-    '''
-    # functions that will return the locations of the given object tiles in the sheep's view
-    def get_location_of_object(self, object, environment):
-        locations = []
-        cx, cy = -(self.range), -(self.range)
-        for row in environment:
-            for element in row:
-                if isinstance(element, object):
-                    locations.append((cx, cy))
-                cx += 1
-            cx = -(self.range)
-            cy += 1
-        return locations
-
-    def burn(self):
-        x = (self.x, self.y, fire_class.fire(self.x, self.y))
-        return x
-
-    def consume(self):
-        #print('consume')
-        if isinstance(self.tile_on, grass_class.grass):
-            self.food += 1 # if the sheep consumes a grass tile, it gets 1 point of hunger back
-        x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
-        return x
-
-    def starve(self):
-        x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
-        return x
-
-    def move(self, x, y):
-        self.x = x
-        self.y = y
-        # using self rather than creating a new sheep object lets us keep track of the sheeps hunger as they move around. creating a new sheep object just creates the illusion of move, sending self lets the actual object move around
-        m = (x, y, self)
-        return m
-'''

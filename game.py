@@ -35,6 +35,8 @@ class gameboard():
         r = random.randint(0,100)
         if r<1:
             self.map[x][y] = sheep(x, y, "white", 3, 50, dirt)
+        elif 1<r<2:
+            self.map[x][y] = sheep(x, y, "gray", 4, 20, dirt)
         elif 2 < r < 10:
             self.map[x][y] = grass(x, y)
         else:
@@ -46,6 +48,7 @@ class gameboard():
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 self.add_cell(i, j)
+        self.map[13 * TILE_SIZE][13 * TILE_SIZE] = sheep(13 * TILE_SIZE, 13 * TILE_SIZE, "white", 5, 20, dirt)
         self.map[10 * TILE_SIZE][10 * TILE_SIZE] = wolf(10 * TILE_SIZE, 10 * TILE_SIZE, "gray", 4, 20, dirt)
 
     def update_weather(self):
