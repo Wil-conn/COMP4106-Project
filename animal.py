@@ -32,11 +32,12 @@ class animal:
 
     def consume(self):
         if isinstance(self.tile_on, grass_class.grass):
-            self.food += 1 # if the sheep consumes a grass tile, it gets 1 point of hunger back
+            self.food += 2 # if the sheep consumes a grass tile, it gets 1 point of hunger back
         x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
         return x
 
     def starve(self):
+        print("STARVING")
         x = (self.x, self.y, dirt_class.dirt(self.x, self.y))
         return x
 
