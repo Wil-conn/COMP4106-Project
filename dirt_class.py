@@ -17,7 +17,7 @@ class dirt:
     #determines what said block should do given its environment (i.e the blocks around it that it can observe given its range)
     #for the dirt block it goes through every element of its environment, if there is a grass block in its environment then there is a 20% chance said dirt block will become a grass block
     def cycle(self, environment, round):
-        m = 1 + (round / 300)
+        #m = 1 + (round / 300)
         #if round % 2 != 0: #this makes it grass only grows every 5 cycles
         #    return None
 
@@ -38,13 +38,14 @@ class dirt:
                     sheep_total += 1
 
         if sheep_total == 2:
-            print("SHEEP REPRODUCING, SHEEP TOTAL:")
+            print("SHEEP TOTAL:")
             print(sheep_total)
             if x <20:
+                print("REPRODUCING")
                 return self.spawn_sheep()
         if grass_total > 3:
             return self.turn_to_grass()
-        if x * m < 0.22:
+        if x < 0.3:
             return self.turn_to_grass()
         c = 0
     #creates a new grass object and returns to the gameboard where this new object should be places
@@ -53,6 +54,7 @@ class dirt:
         return x
 
     def spawn_sheep(self):
+        print("SPAWNING SHEEP")
         x = (self.x, self.y, sheep_class.sheep(self.x, self.y, SHEEP_COLOUR, SHEEP_RANGE, 5, dirt))
         return x
 

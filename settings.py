@@ -3,7 +3,7 @@
 #global GAME_SIZE
 #global TILE_SIZE
 #global WEATHER
-GAME_SIZE = 500
+GAME_SIZE = 1000
 TILE_SIZE = 10
 WEATHER = "Sunny"
 

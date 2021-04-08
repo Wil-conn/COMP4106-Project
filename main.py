@@ -26,8 +26,8 @@ def main():
         root.update_idletasks()
         root.update()
         round += 1
-        time.sleep(0.3)
-        #print("cycle number " + str(round) + " took " + str(time.time() - start))
+        #time.sleep(0.1)
+        print("cycle number " + str(round) + " took " + str(time.time() - start))
 
 if __name__ == "__main__":
     #profile.run('main()')
