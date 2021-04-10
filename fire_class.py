@@ -15,7 +15,7 @@ class fire:
         if settings.WEATHER == "Rain":
             print("rain")
             return self.extinguish()
-        if x < 80:
+        if x < 40:
             return self.extinguish()
 
     def extinguish(self):

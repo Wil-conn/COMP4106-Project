@@ -22,13 +22,14 @@ class grass:
         x = random.rand() * 100
         c = 0
         g = 0
+        sheep_total = 0
         if x < 0.01 and settings.WEATHER != "Rain":
             return self.burn() #there is a 0.05% chance a grass tile will self immulate, this is just for testing fire
         test = where(isinstance(environment.flat[0], dirt_class.dirt)) #ignore, was testing things
         for rows in environment:
             for element in rows:
                 if isinstance(element, fire_class.fire) and settings.WEATHER != "Rain":
-                    if x < 20:
+                    if x < 10:
                         return self.burn() #if there is fire next to a grass tile, there is a 20% chance the grass tile will catch on fire
                 if isinstance(element, tree_class.tree):
                     c += 1
@@ -37,12 +38,18 @@ class grass:
                             return self.turn_to_tree()
                     if c == 7:
                         return self.turn_to_tree()
+
+                if isinstance(element, sheep_class.sheep):
+                    sheep_total += 1
                 '''
                 if isinstance(element, grass):
                     #g += 1
                     if x < 3:
                         return self.spawn_sheep()  #sheep_number argument is just for testing something
                         '''
+        if sheep_total == 2:
+            if x < 20:
+                return self.spawn_sheep()
 
         if x < 1: #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
@@ -56,5 +63,5 @@ class grass:
         return x
 
     def spawn_sheep(self):
-        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, grass)) #round argument just for testing, will be removed
+        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, settings.SHEEP_COLOUR, settings.SHEEP_RANGE, 10, grass)) #round argument just for testing, will be removed
         return x
