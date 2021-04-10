@@ -69,6 +69,15 @@ class wolf(animal.animal):
 
             heur = (l.index(min(l)), (min(l)))
 
+            # makes sure a wolf won't eat another wolf or a tree
+            c = 0
+            while move[heur[0]] in tree_location or move[heur[0]] in wolf_location:
+                l[l.index(min(l))] = 100
+                heur = (l.index(min(l)), min(l))
+                if c == 5:
+                    return (0, 0)
+                c += 1
+
             try:
                 if heur[1] < h1[1]:
                     h1 = heur

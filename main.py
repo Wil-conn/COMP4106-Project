@@ -26,7 +26,7 @@ def main():
         root.update_idletasks()
         root.update()
         round += 1
-        #time.sleep(0.1)
+        time.sleep(0.5)
         print("cycle number " + str(round) + " took " + str(time.time() - start))
 
 if __name__ == "__main__":

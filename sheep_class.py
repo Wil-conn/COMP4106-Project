@@ -116,22 +116,13 @@ class sheep(animal.animal):
             # Because of the view the sheep has the manhattan distance will never be 100 so the sheep will never pick that move with a tree
             c = 0
             while move[heur[0]] in tree_location or move[heur[0]] in sheep_location:
-                #print("BEST MOVE AT" + str(move[heur[0]]) + " HAS TREE")
-                #print("L BEFORE REMOVING " + str(l))
                 l[l.index(min(l))] = 100
-                print("L BEFORE CRASH")
-                print(l)
-                print("C BEFORE CRASH")
-                print(c)
                 heur = (l.index(min(l)), (min(l)))
-                #print("NEXT BEST LOCATION AT " + str(move[heur[0]]))
                 if c == 5:
                     return (0, 0)
                 c += 1
             # if the best move contains a tile we cannot stand on then we chose the next best move
 
-            #print("the best move direction is " + str(moves[0]) + " with a value of " + str(moves[1]))
-            #print(l)
             # this is used to pick the best move if there are multiple possible grass tiles the sheep can go to
             try:
                 if heur[1] < h1[1]:
