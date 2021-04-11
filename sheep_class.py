@@ -61,12 +61,17 @@ class sheep(animal.animal):
             move_y -= 1
 
         #end random movement gen
+        i, j = -(self.range), -(self.range)
         for rows in environment:
             for element in rows:
+                #print(i, j)
                 if(element != None):
                     if self.x-1 <= element.x <= self.x+1 or self.y-1 <= element.y <= self.y+1:
-                        if isinstance(element, fire_class.fire) and settings.WEATHER != "Rain":
+                        if isinstance(element, fire_class.fire) and settings.WEATHER != "Rain" and -1 <= j <= 1 and -1 <= i <= 1:
                             return self.burn() #if sheep is adjacent to fire, 50% chance it burns
+                j += 1
+            j = self.range * -1
+            i += 1
         #input("Press Enter to continue...")
         return self.move(self.x + (move_x * TILE_SIZE), self.y + (move_y * TILE_SIZE))
         #return self.consume()

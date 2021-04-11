@@ -36,6 +36,10 @@ def main():
         print("cycle number " + str(round) + " took " + str(time.time() - start))
     plt.plot(board.sheep_statistics, label="sheep population")
     plt.plot(board.wolf_statistics, label="wolf population")
+    #plt.plot(board.grass_statistics, label="grass stats")
+    #plt.plot(board.tree_statistics, label="tree stats")
+    #plt.plot(board.fire_statistics, label="fire stats")
+    plt.legend(loc="upper left")
     plt.show()
 if __name__ == "__main__":
     #profile.run('main()')

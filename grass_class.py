@@ -62,7 +62,6 @@ class grass:
         return x
 
     def spawn_sheep(self):
-        print("SPAWNING SHEEP")
         #x = (self.x, self.y, sheep_class.sheep(self.x, self.y, grass)) #round argument just for testing, will be removed
-        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, settings.SHEEP_COLOUR, settings.SHEEP_RANGE, 5, dirt_class.dirt))
+        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, settings.SHEEP_COLOUR, settings.SHEEP_RANGE, 4, dirt_class.dirt))
         return x

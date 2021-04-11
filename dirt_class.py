@@ -66,7 +66,6 @@ class dirt:
         return x
 
     def spawn_sheep(self):
-        print("SPAWNING SHEEP")
-        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, SHEEP_COLOUR, SHEEP_RANGE, 5, dirt))
+        x = (self.x, self.y, sheep_class.sheep(self.x, self.y, SHEEP_COLOUR, SHEEP_RANGE, 4, dirt))
         return x
 

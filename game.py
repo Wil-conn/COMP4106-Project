@@ -8,6 +8,8 @@ from dirt_class import dirt
 from sheep_class import sheep
 from grass_class import grass
 from wolf_class import wolf
+from tree_class import tree
+from fire_class import fire
 import random
 
 
@@ -20,6 +22,9 @@ class gameboard():
         self.weather_cycle = 10
         self.sheep_statistics = []
         self.wolf_statistics = []
+        self.grass_statistics = []
+        self.tree_statistics = []
+        self.fire_statistics = []
 
     #goes through every block in the array and draws it on screen according to its colour. every block has a size of 5x5 pixels
     def display(self):
@@ -40,7 +45,7 @@ class gameboard():
             self.map[x][y] = sheep(x, y, "white", 3, 50, dirt)
         elif 1<r<=2:
             self.map[x][y] = wolf(x, y, "gray", 4, 20, dirt)
-        elif 2 < r < 10:
+        elif 2 < r < 20:
             self.map[x][y] = grass(x, y)
         else:
             self.map[x][y] = dirt(x, y)
@@ -51,9 +56,9 @@ class gameboard():
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 self.add_cell(i, j)
-        self.map[13 * TILE_SIZE][13 * TILE_SIZE] = sheep(13 * TILE_SIZE, 13 * TILE_SIZE, "white", 5, 20, dirt)
-        self.map[10 * TILE_SIZE][10 * TILE_SIZE] = wolf(10 * TILE_SIZE, 10 * TILE_SIZE, "gray", 4, 20, dirt)
-        self.map[20 * TILE_SIZE][20 * TILE_SIZE] = wolf(20 * TILE_SIZE, 20 * TILE_SIZE, "gray", 4, 20, dirt)
+        #self.map[13 * TILE_SIZE][13 * TILE_SIZE] = sheep(13 * TILE_SIZE, 13 * TILE_SIZE, "white", 5, 20, dirt)
+        #self.map[10 * TILE_SIZE][10 * TILE_SIZE] = wolf(10 * TILE_SIZE, 10 * TILE_SIZE, "gray", 4, 20, dirt)
+        #self.map[20 * TILE_SIZE][20 * TILE_SIZE] = wolf(20 * TILE_SIZE, 20 * TILE_SIZE, "gray", 4, 20, dirt)
 
     def update_weather(self):
         if self.weather_cycle == 0:
@@ -98,15 +103,27 @@ class gameboard():
     def stats(self):
         num_sheep = 0
         num_wolf = 0
+        num_grass = 0
+        num_tree = 0
+        num_fire = 0
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 if isinstance(self.map[i][j], sheep):
                     num_sheep += 1
                 if isinstance(self.map[i][j], wolf):
                     num_wolf += 1
+                if isinstance(self.map[i][j], grass):
+                    num_grass += 1
+                if isinstance(self.map[i][j], tree):
+                    num_tree += 1
+                if isinstance(self.map[i][j], fire):
+                    num_fire += 1
         #self.statistics.append((num_sheep, num_wolf))
         self.sheep_statistics.append(num_sheep)
         self.wolf_statistics.append(num_wolf)
+        self.grass_statistics.append(num_grass)
+        self.tree_statistics.append(num_tree)
+        self.fire_statistics.append(num_fire)
         #return num_sheep, num_wolf
 
     #Goes through every block on the board in order to determine what said block should do this cycle
