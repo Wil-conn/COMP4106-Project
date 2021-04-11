@@ -35,9 +35,9 @@ class gameboard():
         r = random.randint(0,100)
         if r<1:
             self.map[x][y] = sheep(x, y, "white", 3, 50, dirt)
-        elif 1<r<3:
-            self.map[x][y] = wolf(x, y, "gray", 4, 20, dirt)
-        elif 3 < r < 15:
+        elif 1<r<2:
+            self.map[x][y] = sheep(x, y, "gray", 4, 20, dirt)
+        elif 2 < r < 10:
             self.map[x][y] = grass(x, y)
         else:
             self.map[x][y] = dirt(x, y)
@@ -48,22 +48,22 @@ class gameboard():
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 self.add_cell(i, j)
-        #self.map[13 * TILE_SIZE][13 * TILE_SIZE] = sheep(13 * TILE_SIZE, 13 * TILE_SIZE, "white", 5, 20, dirt)
-        #self.map[10 * TILE_SIZE][10 * TILE_SIZE] = wolf(10 * TILE_SIZE, 10 * TILE_SIZE, "gray", 4, 20, dirt)
-        #self.map[20 * TILE_SIZE][20 * TILE_SIZE] = wolf(20 * TILE_SIZE, 20 * TILE_SIZE, "gray", 4, 20, dirt)
+        self.map[13 * TILE_SIZE][13 * TILE_SIZE] = sheep(13 * TILE_SIZE, 13 * TILE_SIZE, "white", 5, 20, dirt)
+        self.map[10 * TILE_SIZE][10 * TILE_SIZE] = wolf(10 * TILE_SIZE, 10 * TILE_SIZE, "gray", 4, 20, dirt)
+        self.map[20 * TILE_SIZE][20 * TILE_SIZE] = wolf(20 * TILE_SIZE, 20 * TILE_SIZE, "gray", 4, 20, dirt)
 
     def update_weather(self):
         if self.weather_cycle == 0:
             r = random.randint(0,100)
             if r <= 25:
                 settings.WEATHER = "Rain"
-                self.weather_cycle = random.randrange(30, 60, 1)
+                self.weather_cycle = random.randrange(25, 30, 1)
             elif r > 25 and r <= 50:
                 settings.WEATHER = "Sunny"
-                self.weather_cycle = random.randrange(30, 60, 1)
+                self.weather_cycle = random.randrange(20, 40, 1)
             elif r > 50 and r <= 75:
                 settings.WEATHER = "Cloudy"
-                self.weather_cycle = random.randrange(30, 60, 1)
+                self.weather_cycle = random.randrange(20, 40, 1)
             else:
                 settings.WEATHER = "Lightning"
                 self.weather_cycle = random.randrange(10, 15, 1)

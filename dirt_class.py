@@ -2,6 +2,7 @@
 import grass_class
 import sheep_class
 from settings import SHEEP_FOOD, SHEEP_RANGE, SHEEP_COLOUR
+import settings
 from numpy import random
 
 
@@ -38,14 +39,25 @@ class dirt:
                     sheep_total += 1
 
         if sheep_total == 2:
-            print("SHEEP TOTAL:")
-            print(sheep_total)
-            if x <20:
-                print("REPRODUCING")
+            #print("SHEEP TOTAL:")
+            #print(sheep_total)
+            if x < 20:
+                #print("REPRODUCING")
                 return self.spawn_sheep()
-        if grass_total > 3:
+        rain_bonus = 0
+        if settings.WEATHER == "Rain":
+            rain_bonus = 0.5
+            if grass_total > 3:
+                return self.turn_to_grass()
+        if settings.WEATHER == "Sunny":
+            if grass_total > 5:
+                return self.turn_to_grass()
+        
+        if grass_total > 4:
             return self.turn_to_grass()
-        if x < 0.3:
+        
+        #if 24.5 < x and x < 25+rain_bonus:
+        if x < 0.3+rain_bonus:
             return self.turn_to_grass()
         c = 0
     #creates a new grass object and returns to the gameboard where this new object should be places
@@ -54,7 +66,7 @@ class dirt:
         return x
 
     def spawn_sheep(self):
-        print("SPAWNING SHEEP")
+        #print("SPAWNING SHEEP")
         x = (self.x, self.y, sheep_class.sheep(self.x, self.y, SHEEP_COLOUR, SHEEP_RANGE, 5, dirt))
         return x
 

@@ -51,37 +51,52 @@ class wolf(animal.animal):
         move = [(-1, 0), (-1, -1), (-1, 1), (1, 0), (1, -1), (1, 1), (0, -1), (0, 1)]
         grass_locations = self.get_location_of_object(grass_class.grass, environment)
         tree_location = self.get_location_of_object(tree_class.tree, environment)
+        fire_location = self.get_location_of_object(fire_class.fire, environment)
         sheep_location = self.get_location_of_object(sheep_class.sheep, environment)
         wolf_location = self.get_location_of_object(wolf, environment)
+        
+        if len(fire_location) > 0:
+            print(fire_location)
+            for element in fire_location:
+                # because the wolves can move diagonally the Euclidian distance is a better heuristic
+                l = self.move_calc(element, move)
 
-        for element in sheep_location:
-            # because the wolves can move diagonally the Euclidian distance is a better heuristic
-            up = math.sqrt((move[0][0] - element[0])**2 + (move[0][1] - element[1])**2)
-            up_left = math.sqrt((move[1][0] - element[0])**2 + (move[1][1] - element[1])**2)
-            up_right = math.sqrt((move[2][0] - element[0])**2 + (move[2][1] - element[1])**2)
-            down = math.sqrt((move[3][0] - element[0])**2 + (move[3][1] - element[1])**2)
-            down_left = math.sqrt((move[4][0] - element[0])**2 + (move[4][1] - element[1])**2)
-            down_right = math.sqrt((move[5][0] - element[0])**2 + (move[5][1] - element[1])**2)
-            left = math.sqrt((move[6][0] - element[0])**2 + (move[6][1] - element[1])**2)
-            right = math.sqrt((move[7][0] - element[0])**2 + (move[7][1] - element[1])**2)
+                heur = (l.index(min(l)), (min(l)))
 
-            l = [up, up_left, up_right, down, down_left, down_right, left, right]
-
-            heur = (l.index(min(l)), (min(l)))
-
-            # makes sure a wolf won't eat another wolf or a tree
-            c = 0
-            while move[heur[0]] in tree_location or move[heur[0]] in wolf_location:
-                l[l.index(min(l))] = 100
-                heur = (l.index(min(l)), min(l))
-                if c == 5:
-                    return (0, 0)
-                c += 1
-
-            try:
-                if heur[1] < h1[1]:
+                try:
+                    if heur[1] < h1[1]:
+                        h1 = heur
+                except:
                     h1 = heur
-            except:
-                h1 = heur
+            opp = move[h1[0]]
+            print('wolf')
+            print(opp)
+            opp = (opp[0]*-1, opp[1]*-1)
+            print(opp)
+            return opp
+        else:
+            for element in sheep_location:
+                # because the wolves can move diagonally the Euclidian distance is a better heuristic
+                l = self.move_calc(element, move)
 
-        return move[h1[0]]
+                heur = (l.index(min(l)), (min(l)))
+
+                try:
+                    if heur[1] < h1[1]:
+                        h1 = heur
+                except:
+                    h1 = heur
+
+            return move[h1[0]]
+
+    def move_calc(self, element, move):
+        up = math.sqrt((move[0][0] - element[0])**2 + (move[0][1] - element[1])**2)
+        up_left = math.sqrt((move[1][0] - element[0])**2 + (move[1][1] - element[1])**2)
+        up_right = math.sqrt((move[2][0] - element[0])**2 + (move[2][1] - element[1])**2)
+        down = math.sqrt((move[3][0] - element[0])**2 + (move[3][1] - element[1])**2)
+        down_left = math.sqrt((move[4][0] - element[0])**2 + (move[4][1] - element[1])**2)
+        down_right = math.sqrt((move[5][0] - element[0])**2 + (move[5][1] - element[1])**2)
+        left = math.sqrt((move[6][0] - element[0])**2 + (move[6][1] - element[1])**2)
+        right = math.sqrt((move[7][0] - element[0])**2 + (move[7][1] - element[1])**2)
+
+        return [up, up_left, up_right, down, down_left, down_right, left, right]
