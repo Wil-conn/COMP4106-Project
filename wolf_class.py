@@ -10,6 +10,7 @@ import numpy as np
 import random
 import math
 import animal
+import game
 
 
 class wolf(animal.animal):
@@ -44,6 +45,12 @@ class wolf(animal.animal):
             move_y += 1
         elif self.y >= GAME_SIZE-(TILE_SIZE+1):
             move_y -= 1
+        for rows in environment:
+            for element in rows:
+                if(element != None):
+                    if self.x-1 <= element.x <= self.x+1 or self.y-1 <= element.y <= self.y+1:
+                        if isinstance(element, fire_class.fire) and settings.WEATHER != "Rain":
+                            return self.burn() #if sheep is adjacent to fire, 50% chance it burns
         return self.move(self.x + (move_x * TILE_SIZE), self.y + (move_y * TILE_SIZE))
 
     def chooseMove(self, environment):
@@ -54,7 +61,7 @@ class wolf(animal.animal):
         fire_location = self.get_location_of_object(fire_class.fire, environment)
         sheep_location = self.get_location_of_object(sheep_class.sheep, environment)
         wolf_location = self.get_location_of_object(wolf, environment)
-        
+
         if len(fire_location) > 0:
             print(fire_location)
             for element in fire_location:

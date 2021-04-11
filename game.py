@@ -1,5 +1,6 @@
 import tkinter
 import numpy as np
+import time
 from settings import GAME_SIZE
 from settings import TILE_SIZE
 import settings
@@ -17,6 +18,8 @@ class gameboard():
         self.map = np.empty((self.cols, self.rows), dtype = object)
         self.c = c
         self.weather_cycle = 10
+        self.sheep_statistics = []
+        self.wolf_statistics = []
 
     #goes through every block in the array and draws it on screen according to its colour. every block has a size of 5x5 pixels
     def display(self):
@@ -33,10 +36,10 @@ class gameboard():
     #adds a cell to the board. right now it only adds dirt
     def add_cell(self, x, y):
         r = random.randint(0,100)
-        if r<1:
+        if r<=1:
             self.map[x][y] = sheep(x, y, "white", 3, 50, dirt)
-        elif 1<r<2:
-            self.map[x][y] = sheep(x, y, "gray", 4, 20, dirt)
+        elif 1<r<=2:
+            self.map[x][y] = wolf(x, y, "gray", 4, 20, dirt)
         elif 2 < r < 10:
             self.map[x][y] = grass(x, y)
         else:
@@ -92,11 +95,27 @@ class gameboard():
             cols = 0
         return view
 
+    def stats(self):
+        num_sheep = 0
+        num_wolf = 0
+        for i in range (0, self.rows, TILE_SIZE):
+            for j in range (0, self.cols, TILE_SIZE):
+                if isinstance(self.map[i][j], sheep):
+                    num_sheep += 1
+                if isinstance(self.map[i][j], wolf):
+                    num_wolf += 1
+        #self.statistics.append((num_sheep, num_wolf))
+        self.sheep_statistics.append(num_sheep)
+        self.wolf_statistics.append(num_wolf)
+        #return num_sheep, num_wolf
+
     #Goes through every block on the board in order to determine what said block should do this cycle
     #for every block it gets the view that block can see and calls the block's cycle function which is what decides what action will be taken
+
     def next_cycle(self, round):
         # keeps track of which sheep have been moved this cycle so that a sheep does not get stuck in a loop of cycling
         moved = []
+        #self.c.create_rectangle(0, 0, 0+TILE_SIZE, 0+TILE_SIZE, fill = "yellow")
         for i in range (0, self.rows, TILE_SIZE):
             for j in range (0, self.cols, TILE_SIZE):
                 r = self.map[i][j].range
@@ -122,3 +141,4 @@ class gameboard():
                         self.map[i][j] = new_tile[2] #we are using the [2] index to get the new object. [0] and [1] contain the x and y coords
                         self.update_block(i, j)
         self.update_weather()
+        print(self.stats())

@@ -52,10 +52,10 @@ class dirt:
         if settings.WEATHER == "Sunny":
             if grass_total > 5:
                 return self.turn_to_grass()
-        
-        if grass_total > 4:
+
+        if grass_total > 3:
             return self.turn_to_grass()
-        
+
         #if 24.5 < x and x < 25+rain_bonus:
         if x < 0.3+rain_bonus:
             return self.turn_to_grass()
@@ -66,7 +66,7 @@ class dirt:
         return x
 
     def spawn_sheep(self):
-        #print("SPAWNING SHEEP")
+        print("SPAWNING SHEEP")
         x = (self.x, self.y, sheep_class.sheep(self.x, self.y, SHEEP_COLOUR, SHEEP_RANGE, 5, dirt))
         return x
 

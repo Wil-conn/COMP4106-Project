@@ -5,6 +5,7 @@ import tree_class
 from settings import TILE_SIZE
 from settings import GAME_SIZE
 import settings
+import time
 import numpy as np
 #from numpy import random
 import random
@@ -89,7 +90,7 @@ class sheep(animal.animal):
                 down = abs(move[1][0] - element[0]) + abs(move[1][1] - element[1])
                 left = abs(move[2][0] - element[0]) + abs(move[2][1] - element[1])
                 right = abs(move[3][0] - element[0]) + abs(move[3][1] - element[1])
-                
+
                 l = [up, down, left, right]
                 # l.index(min(l)) gets which move has the min value where 0 is up, 1 is down, 2 is left, 3 is right
                 # also gets the values associated with that move and saves them in the tuple move
@@ -100,7 +101,7 @@ class sheep(animal.animal):
                 while move[heur[0]] in tree_location or move[heur[0]] in sheep_location:
                     l[l.index(min(l))] = 100
                     heur = (l.index(min(l)), (min(l)))
-                    
+
                     if c == 5:
                         return (0, 0)
                     c += 1
@@ -128,7 +129,7 @@ class sheep(animal.animal):
                 m = opp
                 #print(m)
                 return m
-                
+
         else:
             if (len(grass_locations)) == 0:
                 c = 0
@@ -150,7 +151,7 @@ class sheep(animal.animal):
                 down = abs(move[1][0] - element[0]) + abs(move[1][1] - element[1])
                 left = abs(move[2][0] - element[0]) + abs(move[2][1] - element[1])
                 right = abs(move[3][0] - element[0]) + abs(move[3][1] - element[1])
-                
+
                 # The Euclidian distance, used for testing
 
                 l = [up, down, left, right]

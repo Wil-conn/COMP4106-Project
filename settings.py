@@ -3,8 +3,8 @@
 #global GAME_SIZE
 #global TILE_SIZE
 #global WEATHER
-GAME_SIZE = 1000
-TILE_SIZE = 20
+GAME_SIZE = 500
+TILE_SIZE = 5
 WEATHER = "Sunny"
 
 SHEEP_COLOUR = "white"

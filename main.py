@@ -6,6 +6,7 @@ import time
 import profile
 import settings
 from settings import GAME_SIZE
+import matplotlib.pyplot as plt
 
 def main():
     #setting up the tkinter canvas
@@ -26,9 +27,16 @@ def main():
         root.update_idletasks()
         root.update()
         round += 1
-        time.sleep(0.5)
+        #time.sleep(0.5)
+        #x = input("Press Enter to continue...")
+        if board.wolf_statistics[round-1] == 0 and board.sheep_statistics[round-1] == 0:
+            break
+        #if x == 'Q':
+        #    break
         print("cycle number " + str(round) + " took " + str(time.time() - start))
-
+    plt.plot(board.sheep_statistics, label="sheep population")
+    plt.plot(board.wolf_statistics, label="wolf population")
+    plt.show()
 if __name__ == "__main__":
     #profile.run('main()')
     main()
