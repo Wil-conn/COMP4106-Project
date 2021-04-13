@@ -5,11 +5,16 @@ from game import gameboard
 import time
 import profile
 import settings
+import sys
 from settings import GAME_SIZE
 import matplotlib.pyplot as plt
 
 def main():
     #setting up the tkinter canvas
+    stats = False
+    if len(sys.argv) == 2:
+        stats = True
+
     root = tkinter.Tk()
     c = tkinter.Canvas(root, bg="black", height = GAME_SIZE+50, width = GAME_SIZE)
     c.pack()
@@ -34,13 +39,14 @@ def main():
         #if x == 'Q':
         #    break
         print("cycle number " + str(round) + " took " + str(time.time() - start))
-    plt.plot(board.sheep_statistics, label="sheep population")
-    plt.plot(board.wolf_statistics, label="wolf population")
-    #plt.plot(board.grass_statistics, label="grass stats")
-    #plt.plot(board.tree_statistics, label="tree stats")
-    #plt.plot(board.fire_statistics, label="fire stats")
-    plt.legend(loc="upper left")
-    plt.show()
+    if stats is True:
+        plt.plot(board.sheep_statistics, label="sheep population")
+        plt.plot(board.wolf_statistics, label="wolf population")
+        plt.plot(board.grass_statistics, label="grass stats")
+        plt.plot(board.tree_statistics, label="tree stats")
+        plt.plot(board.fire_statistics, label="fire stats")
+        plt.legend(loc="upper left")
+        plt.show()
 if __name__ == "__main__":
     #profile.run('main()')
     main()
