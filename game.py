@@ -45,6 +45,7 @@ class gameboard():
             self.map[x][y] = sheep(x, y, "white", 3, 50, dirt)
         elif 1<r<=2:
             self.map[x][y] = wolf(x, y, "gray", 4, 20, dirt)
+            #self.map[x][y] = dirt(x, y)
         elif 2 < r < 20:
             self.map[x][y] = grass(x, y)
         else:

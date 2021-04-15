@@ -22,6 +22,7 @@ class grass:
         x = random.rand() * 100
         c = 0
         g = 0
+        sheep_counter = 0
         if x < 0.01 and settings.WEATHER != "Rain":
             return self.burn() #there is a 0.05% chance a grass tile will self immulate, this is just for testing fire
         test = where(isinstance(environment.flat[0], dirt_class.dirt)) #ignore, was testing things
@@ -41,19 +42,24 @@ class grass:
                         if x < 20+weather_bonus:
                             return self.turn_to_tree()
                     if c == 7:
-                        if x < 90+weather_bonus:
+                        if x < 70+weather_bonus:
                             return self.turn_to_tree()
+                if isinstance(element, sheep_class.sheep):
+                    sheep_counter += 1
                 '''
                 if isinstance(element, grass):
                     #g += 1
                     if x < 3:
                         return self.spawn_sheep()  #sheep_number argument is just for testing something
                         '''
-
+        if sheep_counter == 2:
+            self.spawn_sheep()
         if x < 1 and settings.WEATHER != 'Cloudy': #0.1% chance any grass tile might turn into a tree
             return self.turn_to_tree()
 
     def turn_to_tree(self):
+        #print("test")
+        #pass
         x = (self.x, self.y, tree_class.tree(self.x, self.y))
         return x
 
